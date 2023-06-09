@@ -668,6 +668,8 @@ scope = "source.js"
 injection-regex = "(js|javascript)"
 language-id = "javascript"
 file-types = ["js", "mjs", "cjs", "rules", "es6", "pac", { glob = "jakefile" }]
+formatter = { command = 'prettier', args = ["--parser", "typescript"]}
+auto-format = true
 shebangs = ["node"]
 comment-token = "//"
 block-comment-tokens = { start = "/*", end = "*/" }
@@ -677,8 +679,15 @@ indent = { tab-width = 2, unit = "  " }
 [language.debugger]
 name = "node-debug2"
 transport = "stdio"
-# args consisting of cmd (node) and path to adapter should be added to user's configuration
+command = "node"
+args = ["/home/jhpark/projects/vscode-js-debug/out/src/vsDebugServer.js"]
 quirks = { absolute-paths = true }
+
+[[language.debugger.templates]]
+name = "source"
+request = "launch"
+completion = [ { name = "main", completion = "filename", default = "index.js" } ]
+args = { program = "{0}" }
 
 [[language.debugger.templates]]
 name = "source"
@@ -711,8 +720,37 @@ language-id = "typescript"
 shebangs = ["deno", "ts-node"]
 comment-token = "//"
 block-comment-tokens = { start = "/*", end = "*/" }
+formatter = { command = 'prettier', args = ["--parser", "typescript"]}
+auto-format = true
+roots = ["package.json"]
 language-servers = [ "typescript-language-server" ]
 indent = { tab-width = 2, unit = "  " }
+
+# [language.config]
+# hostInfo = "helix"
+
+# [language.config.typescript.inlayHints]
+# includeInlayEnumMemberValueHints = true
+# includeInlayFunctionLikeReturnTypeHints = true
+# includeInlayFunctionParameterTypeHints = true
+# includeInlayParameterNameHints = "all"
+# includeInlayParameterNameHintsWhenArgumentMatchesName = true
+# includeInlayPropertyDeclarationTypeHints = true
+# includeInlayVariableTypeHints = true
+
+[language.debugger]
+name = "node-debug2"
+transport = "stdio"
+# args consisting of cmd (node) and path to adapter should be added to user's configuration
+command = "node"
+args = ["/home/jhpark/projects/vscode-js-debug/out/src/vsDebugServer.js"]
+quirks = { absolute-paths = true }
+
+[[language.debugger.templates]]
+name = "source"
+request = "launch"
+completion = [ { name = "main", completion = "filename", default = "index.js" } ]
+args = { program = "{0}" }
 
 [[grammar]]
 name = "typescript"
@@ -786,6 +824,7 @@ comment-token = "#"
 language-servers = [ "pylsp" ]
 # TODO: pyls needs utf-8 offsets
 indent = { tab-width = 4, unit = "    " }
+auto-format = true
 
 [[grammar]]
 name = "python"
